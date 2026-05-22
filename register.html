@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AXON AI - Register</title>
+<link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;600;700;800&family=Space+Mono:wght@400;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body class="login-page">
+  <button id="themeToggle" class="btn-theme login-theme" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">☀️</button>
+  <div class="login-screen">
+    <div class="login-card">
+      <div class="login-brand">
+        <div class="brand-icon">◈</div>
+        <div>
+          <div class="brand-name">AXON</div>
+          <div class="brand-tag">CREATE ACCOUNT</div>
+        </div>
+      </div>
+
+      <div class="login-copy">
+        <h1>Create account</h1>
+        <p>Register once, then sign in securely to your Axon workspace.</p>
+      </div>
+
+      <form id="register-form" class="login-form">
+        <label>
+          <span>Name</span>
+          <input id="register-name" type="text" autocomplete="name" placeholder="Your name" required />
+        </label>
+        <label>
+          <span>Email</span>
+          <input id="register-email" type="email" autocomplete="email" placeholder="you@example.com" required />
+        </label>
+        <label>
+          <span>Password</span>
+          <input id="register-pass" type="password" autocomplete="new-password" placeholder="Minimum 6 characters" minlength="6" required />
+        </label>
+        <label>
+          <span>Confirm Password</span>
+          <input id="register-confirm" type="password" autocomplete="new-password" placeholder="Repeat password" minlength="6" required />
+        </label>
+        <button id="register-submit" type="submit">Create account</button>
+        <div id="register-error" class="login-error" aria-live="polite"></div>
+      </form>
+
+      <div class="login-hint auth-switch">
+        Already registered? <a href="login.html">Sign in</a>
+      </div>
+    </div>
+  </div>
+  <script src="register.js"></script>
+</body>
+</html>

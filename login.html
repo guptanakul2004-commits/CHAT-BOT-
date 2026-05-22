@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AXON AI - Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;600;700;800&family=Space+Mono:wght@400;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body class="login-page">
+  <button id="themeToggle" class="btn-theme login-theme" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">☀️</button>
+  <div class="login-screen">
+    <div class="login-card">
+      <div class="login-brand">
+        <div class="brand-icon">◈</div>
+        <div>
+          <div class="brand-name">AXON</div>
+          <div class="brand-tag">SECURE LOGIN</div>
+        </div>
+      </div>
+
+      <div class="login-copy">
+        <h1>Welcome back</h1>
+        <p>Sign in with your registered account to access Axon.</p>
+      </div>
+
+      <form id="login-form" class="login-form">
+        <label>
+          <span>Email</span>
+          <input id="login-email" type="email" autocomplete="email" placeholder="you@example.com" required />
+        </label>
+        <label>
+          <span>Password</span>
+          <input id="login-pass" type="password" autocomplete="current-password" placeholder="Password" required />
+        </label>
+        <button id="login-submit" type="submit">Sign in</button>
+        <div id="login-error" class="login-error" aria-live="polite"></div>
+      </form>
+
+      <div class="login-hint auth-switch">
+        New to Axon? <a href="register.html">Create an account</a>
+      </div>
+    </div>
+  </div>
+  <script src="login.js"></script>
+</body>
+</html>

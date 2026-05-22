@@ -1,0 +1,14 @@
+# =============================================
+#  NEVER push these to GitHub!
+# =============================================
+
+# Secret environment variables (contains API key)
+.env
+env.txt
+
+# Node.js dependencies (too large, reinstall with npm install)
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db

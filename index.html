@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AXON AI — Secure Chatbot</title>
+<link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;600;700;800&family=Space+Mono:wght@400;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ══ SIDEBAR ══ -->
+  <aside id="sidebar">
+    <div class="sb-head">
+      <div class="brand">
+        <div class="brand-icon">◈</div>
+        <div>
+          <div class="brand-name">AXON</div>
+          <div class="brand-tag">AI ASSISTANT</div>
+        </div>
+      </div>
+      <div class="secure-badge">
+        <div class="sec-dot"></div>
+        🔒 SECURED NODE.JS API
+      </div>
+      <button class="btn-new" onclick="newSess()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="12" y1="5" x2="12" y2="19"/>
+          <line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+        NEW CONVERSATION
+      </button>
+    </div>
+
+    <div class="sl-label">Chat History</div>
+    <div id="sl"></div>
+
+    <div class="sb-foot">
+      <button class="btn-sm" onclick="doExport()">↓ Export</button>
+      <button class="btn-sm d" onclick="clearCur()">✕ Clear</button>
+    </div>
+  </aside>
+
+  <!-- ══ MAIN ══ -->
+  <main id="main">
+
+    <!-- Top Bar -->
+    <div id="topbar">
+      <button id="menu-tog" onclick="togSB()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+      <div class="tb-title" id="tbt">New Conversation</div>
+      <button id="themeToggle" class="btn-theme" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">☀️</button>
+      <button id="logout-btn" class="btn-logout" onclick="logout()" title="Logout">LOGOUT</button>
+      <div class="model-pill"><div class="mpd"></div></div>
+      <div class="secure-pill">🔒 SECURE</div>
+      <div class="tb-stat" id="mct">0 messages</div>
+    </div>
+
+    <!-- Chat Messages -->
+    <div id="chat">
+      <div id="welcome">
+        <div class="w-orb">
+          <svg viewBox="0 0 100 100" fill="none">
+            <circle cx="50" cy="50" r="46" stroke="rgba(99,179,237,.14)" stroke-width="1"/>
+            <circle cx="50" cy="50" r="36" stroke="rgba(99,179,237,.22)" stroke-width=".8" stroke-dasharray="5 5"/>
+            <circle cx="50" cy="50" r="24" stroke="rgba(79,209,197,.4)" stroke-width="1.2"/>
+            <path d="M50 26 L57 44 L50 50 L43 44 Z" fill="rgba(99,179,237,.55)"/>
+            <path d="M50 74 L43 56 L50 50 L57 56 Z" fill="rgba(79,209,197,.45)"/>
+            <path d="M26 50 L44 43 L50 50 L44 57 Z" fill="rgba(99,179,237,.35)"/>
+            <path d="M74 50 L56 57 L50 50 L56 43 Z" fill="rgba(79,209,197,.5)"/>
+            <circle cx="50" cy="50" r="5" fill="#63b3ed"/>
+          </svg>
+        </div>
+        <div class="w-title">Hello, I'm Axon</div>
+        <div class="w-sub">Intelligent AI Assistant</div>
+        <div class="w-secure">🔒 API Key Secured via Node.js Backend</div>
+        <div class="chips">
+          <button class="chip" onclick="useChip(this)">
+            <span class="chip-ic">💻</span>
+            <span class="chip-txt"><b>Write Code</b>Python, JavaScript, C++</span>
+          </button>
+          <button class="chip" onclick="useChip(this)">
+            <span class="chip-ic">🧠</span>
+            <span class="chip-txt"><b>Explain Topics</b>Science, Math, Tech</span>
+          </button>
+          <button class="chip" onclick="useChip(this)">
+            <span class="chip-ic">✍️</span>
+            <span class="chip-txt"><b>Write Content</b>Essays, emails, reports</span>
+          </button>
+          <button class="chip" onclick="useChip(this)">
+            <span class="chip-ic">🐛</span>
+            <span class="chip-txt"><b>Debug Code</b>Find and fix bugs fast</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <input type="file" id="fileInput" hidden accept=".pdf,.docx,.txt,.csv,image/*" />
+
+    <!-- Stock Analysis Panel -->
+    <div id="stockPanel" class="stock-panel hidden">
+      <div class="stock-header">
+        <h3>📈 Stock Analysis Dashboard</h3>
+        <button onclick="closeStockPanel()" class="close-btn">✕</button>
+      </div>
+      
+      <div class="stock-search">
+        <input type="text" id="stockInput" placeholder="Enter stock symbol (e.g., AAPL, TSLA)" />
+        <button id="analyzeBtn" onclick="analyzeStock()">Analyze</button>
+      </div>
+
+      <div id="stockResult" class="stock-result"></div>
+
+      <div id="stockLoading" class="stock-loading hidden">
+        <div class="spinner"></div>
+        <p>Analyzing stock data...</p>
+      </div>
+
+      <div class="stock-features">
+        <h4>Features:</h4>
+        <div class="feature-grid">
+          <div class="feature-item">📊 Technical Indicators (RSI, MACD, SMA)</div>
+          <div class="feature-item">🧠 AI Buy/Sell Predictions</div>
+          <div class="feature-item">📰 Sentiment Analysis</div>
+          <div class="feature-item">🎯 Risk Assessment</div>
+          <div class="feature-item">💹 Price & Volume Analysis</div>
+          <div class="feature-item">📈 Bollinger Bands</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input Area -->
+    <div id="iz">
+      <div class="ishell">
+        <textarea id="mi" rows="1"
+          placeholder="Ask Axon anything…"
+          oninput="onInp(this)"
+          onkeydown="onKey(event)"></textarea>
+        <div class="ictl">
+          <button id="uploadBtn" class="attach-btn" title="Attach file">+</button>
+          <button id="stockBtn" class="stock-btn" title="Stock Analysis" onclick="toggleStockPanel()">📈</button>
+          <span id="cc"></span>
+          <button id="sb" onclick="send()" title="Send (Enter)">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
+              stroke="#fff" stroke-width="2.5" stroke-linecap="round">
+              <line x1="22" y1="2" x2="11" y2="13"/>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="ifoot">
+        <span>↵ Send &nbsp;·&nbsp; ⇧↵ New line</span>
+        <span>🔒 Secured by Node.js · Gemini 1.5 Flash</span>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<div id="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>
