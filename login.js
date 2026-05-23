@@ -41,6 +41,16 @@ function showError(message) {
   error.classList.add('show');
 }
 
+async function parseJsonSafe(res) {
+  const text = await res.text();
+  if (!text) return { __emptyResponse: true };
+  try {
+    return JSON.parse(text);
+  } catch (err) {
+    return { __rawText: text };
+  }
+}
+
 window.addEventListener('DOMContentLoaded', () => {
   loadTheme();
 
@@ -67,10 +77,15 @@ window.addEventListener('DOMContentLoaded', () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
-      const data = await res.json();
+      const data = await parseJsonSafe(res);
 
-      if (!res.ok || !data.success) {
-        throw new Error(data.error || 'Login failed');
+      if (!res.ok || !data?.success) {
+        const message =
+          data?.error ||
+          data?.__rawText ||
+          (data?.__emptyResponse ? `Login failed (${res.status} ${res.statusText})` : '') ||
+          `Login failed (${res.status})`;
+        throw new Error(message);
       }
 
       localStorage.setItem(AUTH_KEY, 'true');

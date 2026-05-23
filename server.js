@@ -27,6 +27,7 @@ if (MONGODB_URI) {
 }
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 app.options('*', cors());
 
@@ -47,6 +48,16 @@ const stockRoutes =
 const upload = multer({ dest: 'uploads/' });
 
 const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions';
+
+async function parseJsonSafe(res) {
+  const text = await res.text();
+  if (!text) return null;
+  try {
+    return JSON.parse(text);
+  } catch (err) {
+    return { __rawText: text };
+  }
+}
 
 const SYSTEM_PROMPT = `You are Axon, a brilliant and helpful AI assistant built for a student major project.
 You specialize in coding, science, mathematics, writing, and creative problem solving.
@@ -126,18 +137,20 @@ app.post('/api/chat', async (req, res) => {
 
     if (!orResponse.ok) {
       let message = 'OpenRouter API error';
-      try {
-        const errData = await orResponse.json();
-        message = errData.error?.message || message;
-      } catch (e) {
+      const errData = await parseJsonSafe(orResponse);
+      if (errData?.error?.message) {
+        message = errData.error.message;
+      } else if (errData?.__rawText) {
+        message = errData.__rawText;
+      } else {
         message = `OpenRouter API error (${orResponse.status}): ${orResponse.statusText}`;
       }
       console.error('OpenRouter error:', message);
       return res.status(orResponse.status).json({ error: message });
     }
 
-    const data  = await orResponse.json();
-    const reply = data.choices?.[0]?.message?.content || '(No response)';
+    const data = await parseJsonSafe(orResponse);
+    const reply = data?.choices?.[0]?.message?.content || '(No response)';
 
     res.json({ reply });
 

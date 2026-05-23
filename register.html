@@ -24,22 +24,22 @@
         <p>Register once, then sign in securely to your Axon workspace.</p>
       </div>
 
-      <form id="register-form" class="login-form">
+      <form id="register-form" class="login-form" method="post" action="/api/auth/register">
         <label>
           <span>Name</span>
-          <input id="register-name" type="text" autocomplete="name" placeholder="Your name" required />
+          <input id="register-name" name="name" type="text" autocomplete="name" placeholder="Your name" required />
         </label>
         <label>
           <span>Email</span>
-          <input id="register-email" type="email" autocomplete="email" placeholder="you@example.com" required />
+          <input id="register-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required />
         </label>
         <label>
           <span>Password</span>
-          <input id="register-pass" type="password" autocomplete="new-password" placeholder="Minimum 6 characters" minlength="6" required />
+          <input id="register-pass" name="password" type="password" autocomplete="new-password" placeholder="Minimum 6 characters" minlength="6" required />
         </label>
         <label>
           <span>Confirm Password</span>
-          <input id="register-confirm" type="password" autocomplete="new-password" placeholder="Repeat password" minlength="6" required />
+          <input id="register-confirm" name="confirm" type="password" autocomplete="new-password" placeholder="Repeat password" minlength="6" required />
         </label>
         <button id="register-submit" type="submit">Create account</button>
         <div id="register-error" class="login-error" aria-live="polite"></div>

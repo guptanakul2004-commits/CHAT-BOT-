@@ -258,8 +258,8 @@ async function handleFileUpload(file) {
       body: formData,
     });
 
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Upload failed');
+    const data = await parseJsonSafe(res);
+    if (!res.ok) throw new Error(data?.error || data?.__rawText || 'Upload failed');
 
     uploadedDocuments.push({
       name: data.filename,
@@ -536,10 +536,10 @@ async function analyzeStock() {
 
   try {
     const res = await fetch(`${STOCK_API_URL}/${ticker}/analysis`);
-    const data = await res.json();
+    const data = await parseJsonSafe(res);
 
-    if (!res.ok || !data.success) {
-      throw new Error(data.error || 'Analysis failed');
+    if (!res.ok || !data?.success) {
+      throw new Error(data?.error || data?.__rawText || 'Analysis failed');
     }
 
     loadingDiv.classList.add('hidden');
